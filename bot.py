@@ -15,6 +15,7 @@ intents.dm_messages = True  # Habilita a recepção de mensagens diretas
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # IDs de configuração do servidor
+BOT_TOKEN = "MTI5NzI4NjM1OTYxODI5MzgwMQ.GQYAUE.7VQkNrCuKoGh-EVnBDROJZ2QObqLxx_-CXL2-U"
 CATEGORIA_ID = 1297951712824262696  # ID da categoria onde os processos serão criados
 CANAL_ID = 1297269257188671522  # ID do canal onde a mensagem será enviada
 ADDITIONAL_CHANNEL_ID = 1297422399255613511  # ID do canal adicional para notificação de novos processos
@@ -141,16 +142,19 @@ class ProcessInfoModal(discord.ui.Modal):
                     if member:
                         if role in member.roles:
                             # Remove o cargo se já tiver
+                            channel = bot.get_channel(interaction.channel.id)
                             await member.remove_roles(role)
-
                             button.label = "🛠️ Distribuir"
+
+                            await interaction.response.edit_message(view=self)
+                            await channel.send(f"```{datetime.now().strftime('%d/%m/%Y | %Hh%Mmin')} - Autos Incluídos no Juízo 100% Digital```")
+                            await channel.send(f"```{datetime.now().strftime('%d/%m/%Y | %Hh%Mmin')} - Distribuído por Sorteio```")
                         else:
                             # Adiciona o cargo se não tiver
                             await member.add_roles(role)
 
-                            button.label = "❌ Anexar"
-
-                        await interaction.response.edit_message(view=self)
+                            button.label = "📨 Anexar"
+                            await interaction.response.edit_message(view=self)
 
                 @discord.ui.button(label="✅ Habilitar", style=discord.ButtonStyle.primary)  # Cor azul
                 async def enable(self, button: discord.ui.Button, interaction: discord.Interaction):
@@ -215,4 +219,4 @@ class SpeciesDropdownView(discord.ui.View):
         self.add_item(SpeciesDropdown(ticket_category))
 
 # Inicia o bot
-bot.run("MTI5NzI4NjM1OTYxODI5MzgwMQ.GmUG6r.0-grcMBPRT0Q8vjgXP-q4SRwyhvDmrilg87Qjs")
+bot.run(BOT_TOKEN)
