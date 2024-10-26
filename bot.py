@@ -1,3 +1,5 @@
+import os
+
 import discord
 import random
 from discord.ext import commands
@@ -15,7 +17,7 @@ intents.dm_messages = True  # Habilita a recepção de mensagens diretas
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # IDs de configuração do servidor
-BOT_TOKEN = "MTI5NzI4NjM1OTYxODI5MzgwMQ.GQYAUE.7VQkNrCuKoGh-EVnBDROJZ2QObqLxx_-CXL2-U"
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 CATEGORIA_ID = 1297951712824262696  # ID da categoria onde os processos serão criados
 CANAL_ID = 1297269257188671522  # ID do canal onde a mensagem será enviada
 ADDITIONAL_CHANNEL_ID = 1297422399255613511  # ID do canal adicional para notificação de novos processos
